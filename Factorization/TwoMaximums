@@ -1,4 +1,4 @@
-public class Factorization extends MiniJava {
+public class TwoMaximums extends MiniJava {
     public static void main(String[] args){
         int max = 0;
         int x = readInt();
