@@ -3,17 +3,17 @@ import java.sql.SQLOutput;
 public class Vivarium {
     private int area;
     private int constructionYear;
-    Animal[] inhabitants;
+    private Animal[] inhabitants;
 
     public Vivarium(Animal[] inhabitants,int area,int constructionYear){
         this.area = area;
         this.constructionYear = constructionYear;
         this.inhabitants = inhabitants;
     }
-    public int getCost() {
+    public int getCosts() {
         int costs = 0;
         for (int i = 0; i < inhabitants.length; i++) {
-            costs += inhabitants[i].getFoodCost();
+            costs += inhabitants[i].getFoodCosts();
         }
         return costs + getMaintenance();
     }
@@ -32,4 +32,6 @@ public class Vivarium {
         result += "]";
         return result;
     }
+}
+
 }
