@@ -1,9 +1,9 @@
 public class Animal {
-    int foodCost;
-    String name;
+    private int foodCosts;
+    private String name;
 
     public Animal(String name,int foodCost){
-        this.foodCost = foodCost;
+        this.foodCosts = foodCosts;
         this.name = name;
     }
 
@@ -13,13 +13,12 @@ public class Animal {
         return name;
 }
 
-public int getFoodCost(){
-
-        return foodCost;
+public int getFoodCosts(){
+        return foodCosts;
 }
 
 public  String toString(){
 
-        return "Name: " + getName() + ", FoodCosts(in dollers):" + getFoodCost();
+        return "Name: " + getName() + ", FoodCosts(in dollers):" + getFoodCosts();
     }
 }
