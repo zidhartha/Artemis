@@ -8,7 +8,7 @@ public class Zoo {
     public int getCosts(){
         int sum = 0;
         for (int i = 0; i <vivaria.length;i++) {
-            sum += vivaria[i].getCost();
+            sum += vivaria[i].getCosts();
         }
         return sum;
     }
