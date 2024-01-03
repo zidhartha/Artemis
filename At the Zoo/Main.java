@@ -8,13 +8,13 @@ public class Main {
         Animal[] animals = new Animal[]{animal2, animal1};
         Vivarium vivarium = new Vivarium(animals, 200, 1985);
         System.out.println(vivarium.toString());
-        System.out.println(vivarium.getCost());
+        System.out.println(vivarium.getCosts());
         Animal animal3 = new Animal("Wolf", 1);
         Animal animal4 = new Animal("Wolf", 2);
         Animal[] animals2 = new Animal[]{animal3, animal4};
         Vivarium vivarium2 = new Vivarium(animals2, 200, 1985);
         System.out.println(vivarium2.toString());
-        System.out.println(vivarium2.getCost());
+        System.out.println(vivarium2.getCosts());
         Zoo zoo = new Zoo(new Vivarium[]{vivarium, vivarium2});
         System.out.println(zoo.getCosts());
         System.out.println(zoo.toString());
