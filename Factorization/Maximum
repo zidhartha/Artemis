@@ -1,0 +1,14 @@
+
+public class Maximum extends MiniJava {
+    public static void main(String[] args) {
+        int max = 0;
+    int x = readInt();
+    for(int i = 0;i<x;i++){
+        int y = readInt();
+        if(y>max){
+            max = y;
+        }
+        }
+        write(max);
+    }
+    }
