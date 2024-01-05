@@ -5,27 +5,25 @@ import java.util.Map;
 
 public class ScrewStore {
     private final HashMap<Screw, Integer> stock;
-    private final LinkedList<Screw> orders;
+    private final LinkedList<Order> orders;
 
     public ScrewStore() {
         stock = new HashMap<>();
-        orders = new LinkedList<Screw>();
+        orders = new LinkedList<Order>();
     }
 
     public void addItem(Screw type, int amount) {
         Integer current = stock.get(type);
-    if(current == null){
-        stock.put(type,amount);
-    }else{
-        stock.put(type,amount + current);
-    }
+        if(current == null){
+            stock.put(type,amount);
+        }else{
+            stock.put(type,amount + current);
+        }
     }
 
     public void takeOrder(Screw type, int amount) {
         if (amount > 0 && type != null) {
-            for (int i = 0; i < amount; i++) {
-                orders.addFirst(type);
-            }
+            orders.add(new Order(type,amount));
         }
     }
     public boolean executeOrder() {
@@ -44,28 +42,33 @@ public class ScrewStore {
                 return true;
             }
         }
-            return false;
+        return false;
 
     }
 
-       public void inflation(double percent){
-           for(Screw key : stock.keySet()){
-               key.setPrice(key.getPrice() * (1 + percent));
-           }
+    public void inflation(double percent){
+        for(Screw key : stock.keySet()){
+            key.setPrice(key.getPrice() * (1 + percent));
         }
+    }
 
-        public int count(){
+    public int count(){
         int count = 0;
         for(int i : stock.values())
             count += i;
         return count;
-        }
+    }
 
-        public double value(){
-            double amount = 0;
-            for (Map.Entry<Screw, Integer> entry : stock.entrySet())
-                amount += entry.getKey().getPrice() * entry.getValue();
-            return amount;
-            }
-
+    public double value(){
+        double amount = 0;
+        for (Map.Entry<Screw, Integer> entry : stock.entrySet())
+            amount += entry.getKey().getPrice() * entry.getValue();
+        return amount;
+    }
+    public String stockToString() {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Screw, Integer> entry : stock.entrySet())
+            sb.append(entry.getValue() + "x " + entry.getKey() + "\n");
+        return sb.toString();
+    }
 }
