@@ -1,0 +1,56 @@
+
+import pgdp.color.RgbColor8Bit;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+/**
+ * Using minimal set of different collectors
+ */
+public final class AdventuinParty {
+
+    public static Map<HatType, List<Adventuin>> groupByHatType(List<Adventuin> adventuins) {
+        return adventuins.stream().collect(Collectors.groupingBy(Adventuin::getHatType));
+    }
+
+    public static void printLocalizedChristmasGreetings(List<Adventuin> adventuins) {
+        adventuins.stream().sorted((a1, a2) -> Integer.compare(a1.getHeight(), a2.getHeight()))
+                .map(a -> a.getLanguage().getLocalizedChristmasGreeting(a.getName())).forEach(System.out::println);
+    }
+
+    public static Map<HatType, List<Adventuin>> getAdventuinsWithLongestNamesByHatType(List<Adventuin> adventuins) {
+        return groupByHatType(adventuins).entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> {
+            Adventuin max = e.getValue().stream()
+                    .max((a1, a2) -> Integer.compare(a1.getName().length(), a2.getName().length())).get();
+            return e.getValue().stream().filter(a -> a.getName().length() == max.getName().length())
+                    .collect(Collectors.toList());
+        }));
+    }
+
+    public static Map<Integer, Double> getAverageColorBrightnessByHeight(List<Adventuin> adventuins) {
+        return adventuins.stream().collect(Collectors.groupingBy(a -> ((a.getHeight() + 5) / 10) * 10)).entrySet()
+                .stream().collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().stream()
+                        .mapToDouble(a -> colorBrightness(a.getColor().toRgbColor8Bit())).average().getAsDouble()));
+    }
+
+    public static Map<HatType, Double> getDiffOfAvgHeightDiffsToPredecessorByHatType(List<Adventuin> adventuins) {
+        return groupByHatType(adventuins).entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> {
+            List<Integer> heights = e.getValue().stream().map(Adventuin::getHeight).collect(Collectors.toList());
+            final int heightCount = heights.size();
+            Map<Integer, List<Integer>> byDiffType = IntStream.range(0, heightCount)
+                    .mapToObj(i -> heights.get(i) - heights.get((i - 1 + heightCount) % heightCount))
+                    .collect(Collectors.groupingBy(Integer::signum));
+            Map<Integer, Double> diffAvg = byDiffType.entrySet().stream().collect(Collectors.toMap(Entry::getKey, v -> {
+                return v.getValue().stream().mapToInt(i -> i).average().getAsDouble();
+            }));
+            return diffAvg.getOrDefault(1, 0.0) - diffAvg.getOrDefault(-1, 0.0);
+        }));
+    }
+
+    private static double colorBrightness(RgbColor8Bit c) {
+        return (0.2126 * c.getRed() + 0.7152 * c.getGreen() + 0.0722 * c.getBlue()) / 255;
+    }
+}
